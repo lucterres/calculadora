@@ -1,0 +1,34 @@
+# Diretórios de build
+build/
+bin/
+
+# Arquivos de compilação
+*.o
+*.obj
+*.exe
+*.out
+*.app
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Visual Studio
+.vs/
+*.user
+*.vcxproj
+*.vcxproj.filters
+*.sln
+
+# Arquivos temporários
+*.tmp
+*.log
+*.swp
+*~
+
+# IDEs
+.vscode/
+.idea/
+*.cbp
