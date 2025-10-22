@@ -1,6 +1,47 @@
-# 🧮 Calculadora C++
+# 🧮 Calculadora C++ - Clean Architecture
 
-Uma calculadora em C++ com operações básicas e avançadas, desenvolvida seguindo as melhores práticas de Engenharia de Software e utilizando C++17.
+Uma calculadora em C++ com operações básicas e avançadas, refatorada seguindo os princípios de **Clean Architecture** e **SOLID**, utilizando C++17.
+
+## 🏛️ Arquitetura
+
+Este projeto aplica **Clean Architecture** com separação clara de responsabilidades em camadas:
+
+```
+┌─────────────────────────────────────────┐
+│         Presentation Layer              │  ← Adapters (UI)
+│   ConsolePresenter | ConsoleInputHandler│
+├─────────────────────────────────────────┤
+│         Use Cases Layer                 │  ← Application Logic
+│  ExecuteOperation | GetLastResult       │
+├─────────────────────────────────────────┤
+│         Domain Layer                    │  ← Business Rules
+│    Operation | CalculationResult        │
+├─────────────────────────────────────────┤
+│      Infrastructure Layer               │  ← Adapters (Data)
+│   InMemoryCalculatorRepository          │
+└─────────────────────────────────────────┘
+```
+
+### Camadas
+
+1. **Domain (Entities)** - Regras de negócio puras
+   - `Operation`: Representa uma operação matemática
+   - `CalculationResult`: Encapsula o resultado de um cálculo
+
+2. **Use Cases** - Lógica de aplicação
+   - `ExecuteOperationUseCase`: Executa operações matemáticas
+   - `GetLastResultUseCase`: Recupera último resultado
+
+3. **Interfaces (Ports)** - Contratos entre camadas
+   - `ICalculatorRepository`: Interface para persistência
+   - `IPresenter`: Interface para apresentação
+
+4. **Infrastructure (Adapters)** - Implementações concretas
+   - `InMemoryCalculatorRepository`: Armazena resultados em memória
+
+5. **Presentation (Adapters)** - Interface com usuário
+   - `ConsolePresenter`: Apresenta informações no console
+   - `ConsoleInputHandler`: Captura entrada do usuário
 
 ## 📋 Funcionalidades
 
@@ -146,13 +187,37 @@ A calculadora possui tratamento robusto de erros:
 - **Raiz de número negativo:** Impede operação e notifica o usuário
 - **Entrada inválida:** Solicita nova entrada até receber um valor válido
 
-## 🏛️ Arquitetura
+## ✨ Princípios Aplicados
 
-O projeto segue os princípios de **separação de responsabilidades**:
+### SOLID
 
-- **`Calculator`**: Classe responsável por todas as operações matemáticas
-- **`Utils`**: Funções auxiliares para interface e validação
-- **`main`**: Controle do fluxo principal e interação com o usuário
+- ✅ **S**ingle Responsibility: Cada classe tem uma única responsabilidade
+- ✅ **O**pen/Closed: Aberto para extensão, fechado para modificação
+- ✅ **L**iskov Substitution: Interfaces podem ser substituídas sem quebrar o sistema
+- ✅ **I**nterface Segregation: Interfaces específicas e coesas
+- ✅ **D**ependency Inversion: Dependências injetadas através de abstrações
+
+### Clean Architecture
+
+- ✅ **Independência de Frameworks**: Regras de negócio não dependem de bibliotecas externas
+- ✅ **Testabilidade**: Cada camada pode ser testada isoladamente
+- ✅ **Independência de UI**: Console pode ser facilmente substituído por GUI
+- ✅ **Independência de Database**: Repository pode ser trocado (InMemory → SQL)
+- ✅ **Regras de Negócio Isoladas**: Domain layer puro, sem dependências externas
+
+### Dependency Injection
+
+O arquivo `main.cpp` atua como **Composition Root**, onde todas as dependências são injetadas:
+
+```cpp
+// Criação das dependências
+InMemoryCalculatorRepository repository;
+ConsolePresenter presenter;
+
+// Injeção nos Use Cases
+ExecuteOperationUseCase executeOperation(&repository);
+GetLastResultUseCase getLastResult(&repository);
+```
 
 ## 🧪 Compilação com Warnings
 
@@ -166,15 +231,27 @@ g++ -std=c++17 -Wall -Wextra -pedantic -I include src/*.cpp -o bin/calculadora
 cl /std:c++17 /W4 /I include src\*.cpp /Fe:bin\calculadora.exe
 ```
 
-## 📝 Padrões de Código
+## � Benefícios da Refatoração
+
+| Aspecto | Antes | Depois |
+|---------|-------|--------|
+| **Arquitetura** | Monolítica | Clean Architecture (camadas) |
+| **Testabilidade** | Difícil (lógica acoplada) | Fácil (camadas isoladas) |
+| **Manutenibilidade** | Código espalhado | Responsabilidades claras |
+| **Extensibilidade** | Modificação direta | Adição de novos adapters |
+| **Dependências** | Acoplamento forte | Inversão de dependências |
+
+## �📝 Padrões de Código
 
 - **Padrão C++:** C++17
+- **Arquitetura:** Clean Architecture + SOLID
 - **Nomenclatura:**
   - Classes: `PascalCase`
   - Funções/Variáveis: `camelCase`
   - Constantes: `UPPER_SNAKE_CASE`
-- **Documentação:** Comentários em português
-- **Tratamento de Erros:** Uso de exceções (`std::invalid_argument`)
+  - Interfaces: `I` prefix (e.g., `ICalculatorRepository`)
+- **Documentação:** Comentários em português com Doxygen
+- **Tratamento de Erros:** `CalculationResult` com estados de sucesso/falha
 
 ## 🤝 Contribuindo
 
