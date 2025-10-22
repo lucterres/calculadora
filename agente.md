@@ -1,12 +1,10 @@
 # Agente de Configuração - Projeto C++
 
-    1. "Primeiro, faça um planejamento de como isso deve ser implementado e me apresente para aprovação.
+    Apresente o plano e aguarde aguarde aprovação 
     
-    2. Após a aprovação, crie uma lista de tarefas e execute cada uma delas em ordem."
-    
-    3. Não crie documentação excessiva, como arquivos Markdown ou de instalação. Gere apenas o código necessário para criar o aplicativo. 
+    Não crie documentação excessiva, como arquivos Markdown ou de instalação. Gere apenas o código necessário para criar o aplicativo. 
 
-    4. Utilize as melhores práticas de Engenharia de Software na codificação 
+    Utilize as melhores práticas de Engenharia de Software na codificação 
 
 
 ## 📋 Informações do Projeto
